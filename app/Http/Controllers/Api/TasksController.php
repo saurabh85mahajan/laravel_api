@@ -18,6 +18,7 @@ class TasksController extends Controller
     public function store(TaskRequest $request)
     {
         //
+        $this->authorize('create', [Task::class, $request->project_id]);
         $task = Task::create($request->all());
         return $task;
     }
@@ -32,6 +33,7 @@ class TasksController extends Controller
     public function update(TaskRequest $request, Task $task)
     {
         //
+        $this->authorize('update', $task);
         $task->update($request->all());
         return $task;
     }
@@ -45,6 +47,7 @@ class TasksController extends Controller
     public function destroy(Task $task)
     {
         //
+        $this->authorize('delete', $task);
         $task->delete();
         return ['status' => 'OK'];
     }
