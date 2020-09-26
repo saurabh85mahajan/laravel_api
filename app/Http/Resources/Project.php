@@ -22,7 +22,7 @@ class Project extends JsonResource
         ];
     }
 
-    public function with($request) 
+    public function with($request)
     {
         return [
             'status' => 'OK'

@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Throwable;
 
 class Handler extends ExceptionHandler
 {
@@ -33,5 +34,19 @@ class Handler extends ExceptionHandler
     public function register()
     {
         //
+    }
+
+    public function render($request, Throwable $e) 
+    {
+        if( $request->is('api*')) {
+            if ($e instanceof \Illuminate\Validation\ValidationException) {
+                return response([
+                    'status' => 'error',
+                    'errors' => $e->errors()
+                ], 422);
+            }
+        }
+
+        parent::render( $request, $e);
     }
 }
