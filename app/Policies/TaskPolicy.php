@@ -35,7 +35,7 @@ class TaskPolicy
     public function update(User $user, Task $task)
     {
         //
-        $project->update($request->all());
+        return $user->id === $task->project->user_id;
     }
 
     /**

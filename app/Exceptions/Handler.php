@@ -69,6 +69,8 @@ class Handler extends ExceptionHandler
                 ], 401);
             }
 
+            dd($e);
+
             return response(['status' => 'Error', 'error' => 'Something Went Wrong'], 500);
 
         }
