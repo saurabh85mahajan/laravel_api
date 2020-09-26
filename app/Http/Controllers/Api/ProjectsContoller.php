@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Project;
+use App\Http\Resources\Project as ProjectResource;
 
 class ProjectsContoller extends Controller
 {
@@ -16,7 +17,9 @@ class ProjectsContoller extends Controller
     public function index()
     {
         //
-        $projects = Project::all();
+        $projects = Project::where('user_id', auth()->user()->id)
+            ->select(['id', 'name', 'created_at', 'updated_at'])
+            ->get();
         return $projects;
     }
 
@@ -37,9 +40,11 @@ class ProjectsContoller extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Project $project)
     {
         //
+        // return $project;
+        return new ProjectResource($project);
     }
 
     /**
