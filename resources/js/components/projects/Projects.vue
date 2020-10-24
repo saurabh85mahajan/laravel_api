@@ -1,7 +1,8 @@
 <template>
     <div class="p-4 m-4 bg-white rounded flex flex-col">
-        <div>
+        <div class="flex justify-between">
             <h1 class="text-2xl text-gray-700">Projects</h1>
+            <button class="bg-red-500 rounded text-white px-3 py-2 mr-6 hover:bg-red-700">Add Project</button>
         </div>
 
         <div class="justify-center flex">
@@ -15,12 +16,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="project in projects" :key="project.id">
-                        <td>{{ project.id}}</td>
-                        <td>{{ project.name}}</td>
-                        <td>{{ project.tasks_count}}</td>
-                        <td>Actions</td>
-                    </tr>
+                    <project-item v-for="project in projects" :key="project.id" :project="project"></project-item>
                 </tbody>
             </table>
         </div>
@@ -28,7 +24,13 @@
 </template>
 
 <script>
+
+import ProjectItem from './ProjectItem.vue';
+
 export default {
+    components: {
+        ProjectItem
+    }, 
     data() {
         return {
             projects: []
