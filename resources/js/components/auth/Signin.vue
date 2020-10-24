@@ -16,7 +16,7 @@
                 Password
             </label>
             <input v-model="password" class="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" type="password" placeholder="******************">
-            <p class="text-red-500 text-xs italic hidden">Please choose a password.</p>
+            <p v-if="errorMsg.length" class="text-red-500 text-xs italic">{{errorMsg}}</p>
             </div>
             <div class="flex items-center justify-between">
             <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
@@ -33,23 +33,23 @@ export default {
     data() {
         return {
             'email' : '',
-            'password' : ''
+            'password' : '',
+            'errorMsg' : '',
         }
     },
     methods: {
-        handleLogin() {
-            alert(this.email);
-            alert(this.password);
-            axios.get('/sanctum/csrf-cookie').then(response => {
-                
-                axios.post('/api/authenticate', {email: this.email, password: this.password})
-                    .then( res => {
-                        this.$router.push({name: 'dashboard'})
-                    })
-                    .catch( err => {
-                        console.log(err);
-                    })
-            });
+        async handleLogin() {
+
+            this.errorMsg = '';
+
+            //Action here
+            try {
+                await this.$store.dispatch('signIn', {email: this.email, password : this.password});
+                this.$router.push({name: 'dashboard'});
+            } catch (e) {
+                this.errorMsg = e;
+            }
+
         }
     }
 }
