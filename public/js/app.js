@@ -11862,6 +11862,21 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/index.js?!./resources/js/components/projects/ProjectDetail.vue?vue&type=script&lang=js":
+/*!**************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist??ref--28-0!./resources/js/components/projects/ProjectDetail.vue?vue&type=script&lang=js ***!
+  \**************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['id']
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/index.js?!./resources/js/components/projects/ProjectItem.vue?vue&type=script&lang=js":
 /*!************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist??ref--28-0!./resources/js/components/projects/ProjectItem.vue?vue&type=script&lang=js ***!
@@ -12192,6 +12207,26 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/projects/ProjectDetail.vue?vue&type=template&id=67526160&bindings={\"id\":\"props\"}":
+/*!*****************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--28-0!./resources/js/components/projects/ProjectDetail.vue?vue&type=template&id=67526160&bindings={"id":"props"} ***!
+  \*****************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm-bundler.js");
+
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  return Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])("div", null, " Project Detail Component " + Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($props.id), 1
+  /* TEXT */
+  );
+}
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/projects/ProjectItem.vue?vue&type=template&id=6641e4e2&bindings={\"project\":\"props\"}":
 /*!********************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--28-0!./resources/js/components/projects/ProjectItem.vue?vue&type=template&id=6641e4e2&bindings={"project":"props"} ***!
@@ -12213,25 +12248,44 @@ const _hoisted_2 = {
 const _hoisted_3 = {
   class: "border px-4 py-2"
 };
-
-const _hoisted_4 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("td", {
+const _hoisted_4 = {
   class: "border px-4 py-2"
-}, [/*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("button", {
+};
+
+const _hoisted_5 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("button", {
   class: "bg-gray-500 rounded text-white px-3 py-2 mr-2 hover:bg-gray-700"
-}, "View"), /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("button", {
+}, "View", -1
+/* HOISTED */
+);
+
+const _hoisted_6 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("button", {
   class: "bg-red-500 rounded text-white px-3 py-2 mr-2 hover:bg-red-700"
-}, "Delete")], -1
+}, "Delete", -1
 /* HOISTED */
 );
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
+  const _component_router_link = Object(vue__WEBPACK_IMPORTED_MODULE_0__["resolveComponent"])("router-link");
+
   return Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])("tr", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("td", _hoisted_1, Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($props.project.id), 1
   /* TEXT */
   ), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("td", _hoisted_2, Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($props.project.name), 1
   /* TEXT */
   ), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("td", _hoisted_3, Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($props.project.tasks_count), 1
   /* TEXT */
-  ), _hoisted_4]);
+  ), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("td", _hoisted_4, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])(_component_router_link, {
+    to: {
+      name: 'project-detail',
+      params: {
+        id: $props.project.id
+      }
+    }
+  }, {
+    default: Object(vue__WEBPACK_IMPORTED_MODULE_0__["withCtx"])(() => [_hoisted_5]),
+    _: 1
+  }, 8
+  /* PROPS */
+  , ["to"]), _hoisted_6])]);
 }
 
 /***/ }),
@@ -34309,6 +34363,62 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/projects/ProjectDetail.vue":
+/*!************************************************************!*\
+  !*** ./resources/js/components/projects/ProjectDetail.vue ***!
+  \************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _ProjectDetail_vue_vue_type_template_id_67526160_bindings_id_props___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ProjectDetail.vue?vue&type=template&id=67526160&bindings={"id":"props"} */ "./resources/js/components/projects/ProjectDetail.vue?vue&type=template&id=67526160&bindings={\"id\":\"props\"}");
+/* harmony import */ var _ProjectDetail_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ProjectDetail.vue?vue&type=script&lang=js */ "./resources/js/components/projects/ProjectDetail.vue?vue&type=script&lang=js");
+/* empty/unused harmony star reexport */
+
+
+_ProjectDetail_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"].render = _ProjectDetail_vue_vue_type_template_id_67526160_bindings_id_props___WEBPACK_IMPORTED_MODULE_0__["render"]
+/* hot reload */
+if (false) {}
+
+_ProjectDetail_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"].__file = "resources/js/components/projects/ProjectDetail.vue"
+
+/* harmony default export */ __webpack_exports__["default"] = (_ProjectDetail_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"]);
+
+/***/ }),
+
+/***/ "./resources/js/components/projects/ProjectDetail.vue?vue&type=script&lang=js":
+/*!************************************************************************************!*\
+  !*** ./resources/js/components/projects/ProjectDetail.vue?vue&type=script&lang=js ***!
+  \************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_index_js_ref_28_0_ProjectDetail_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib!../../../../node_modules/vue-loader/dist??ref--28-0!./ProjectDetail.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/index.js?!./resources/js/components/projects/ProjectDetail.vue?vue&type=script&lang=js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_index_js_ref_28_0_ProjectDetail_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"]; });
+
+/* empty/unused harmony star reexport */ 
+
+/***/ }),
+
+/***/ "./resources/js/components/projects/ProjectDetail.vue?vue&type=template&id=67526160&bindings={\"id\":\"props\"}":
+/*!******************************************************************************************************************!*\
+  !*** ./resources/js/components/projects/ProjectDetail.vue?vue&type=template&id=67526160&bindings={"id":"props"} ***!
+  \******************************************************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_28_0_ProjectDetail_vue_vue_type_template_id_67526160_bindings_id_props___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib!../../../../node_modules/vue-loader/dist/templateLoader.js??ref--6!../../../../node_modules/vue-loader/dist??ref--28-0!./ProjectDetail.vue?vue&type=template&id=67526160&bindings={"id":"props"} */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/projects/ProjectDetail.vue?vue&type=template&id=67526160&bindings={\"id\":\"props\"}");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_28_0_ProjectDetail_vue_vue_type_template_id_67526160_bindings_id_props___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/projects/ProjectItem.vue":
 /*!**********************************************************!*\
   !*** ./resources/js/components/projects/ProjectItem.vue ***!
@@ -34434,7 +34544,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_auth_Signin_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/auth/Signin.vue */ "./resources/js/components/auth/Signin.vue");
 /* harmony import */ var _components_dashboard_Dashboard_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/dashboard/Dashboard.vue */ "./resources/js/components/dashboard/Dashboard.vue");
 /* harmony import */ var _components_projects_Projects_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/projects/Projects.vue */ "./resources/js/components/projects/Projects.vue");
-/* harmony import */ var _store_index__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./store/index */ "./resources/js/store/index.js");
+/* harmony import */ var _components_projects_ProjectDetail_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/projects/ProjectDetail.vue */ "./resources/js/components/projects/ProjectDetail.vue");
+/* harmony import */ var _store_index__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./store/index */ "./resources/js/store/index.js");
+
 
 
 
@@ -34465,11 +34577,19 @@ const router = Object(vue_router__WEBPACK_IMPORTED_MODULE_0__["createRouter"])({
     meta: {
       requiresAuth: true
     }
+  }, {
+    path: '/projects/:id',
+    component: _components_projects_ProjectDetail_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
+    name: 'project-detail',
+    meta: {
+      requiresAuth: true
+    },
+    props: true
   }]
 });
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (!_store_index__WEBPACK_IMPORTED_MODULE_4__["default"].getters.authenticated) {
+    if (!_store_index__WEBPACK_IMPORTED_MODULE_5__["default"].getters.authenticated) {
       next({
         name: 'login'
       });
