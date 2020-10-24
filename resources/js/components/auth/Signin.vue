@@ -29,6 +29,8 @@
 </template>
 
 <script>
+
+import {mapGetters} from 'vuex';
 export default {
     data() {
         return {
@@ -36,6 +38,11 @@ export default {
             'password' : '',
             'errorMsg' : '',
         }
+    },
+    computed: {
+        ...mapGetters([
+            'authenticated'
+        ])
     },
     methods: {
         async handleLogin() {
@@ -50,6 +57,11 @@ export default {
                 this.errorMsg = e;
             }
 
+        }
+    },
+    mounted() {
+        if( this.authenticated) {
+            this.$router.push({name: 'dashboard'});
         }
     }
 }

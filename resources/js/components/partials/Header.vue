@@ -12,7 +12,7 @@
                 <router-link :to="{name: 'login'}"  class="text-blue-600 hover:text-white">Login</router-link>
             </li>
             <li class="mr-6" v-if="authenticated"> 
-                <a href="#" class="text-blue-600 hover:text-white">Logout</a>
+                <a href="#" class="text-blue-600 hover:text-white" @click="handleLogout()">Logout</a>
             </li>
         </ul>
     </header>
@@ -26,5 +26,11 @@ export default {
             'authenticated'
         ])
     },
+    methods: {
+        async handleLogout() {
+            await this.$store.dispatch('logout');
+            this.$router.push({name: 'login'});
+        }
+    }
 }
 </script>
