@@ -11872,16 +11872,20 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _TaskItem_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TaskItem.vue */ "./resources/js/components/projects/TaskItem.vue");
+/* harmony import */ var _ProjectEditForm_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ProjectEditForm.vue */ "./resources/js/components/projects/ProjectEditForm.vue");
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['id'],
   components: {
-    TaskItem: _TaskItem_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+    TaskItem: _TaskItem_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
+    ProjectEditForm: _ProjectEditForm_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
 
   data() {
     return {
-      project: []
+      project: [],
+      showForm: false
     };
   },
 
@@ -11892,16 +11896,70 @@ __webpack_require__.r(__webpack_exports__);
           name: 'projects'
         });
       });
+    },
+
+    fetchProject() {
+      this.showForm = false;
+      axios.get('api/projects/' + this.id).then(res => {
+        this.project = res.data.data;
+      });
     }
 
   },
 
   mounted() {
-    axios.get('api/projects/' + this.id).then(res => {
-      this.project = res.data.data;
-    });
+    this.fetchProject();
   }
 
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/index.js?!./resources/js/components/projects/ProjectEditForm.vue?vue&type=script&lang=js":
+/*!****************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist??ref--28-0!./resources/js/components/projects/ProjectEditForm.vue?vue&type=script&lang=js ***!
+  \****************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['project'],
+
+  data() {
+    return {
+      projectName: this.project.name,
+      errorMsg: ''
+    };
+  },
+
+  methods: {
+    async handleSubmit() {
+      try {
+        const response = await axios.put('api/projects/' + this.project.id, {
+          name: this.projectName
+        });
+
+        if (response.data.status == 'OK') {
+          this.name = '';
+          this.errorMsg = '';
+          this.$emit('project-edited');
+        }
+      } catch (e) {
+        if (e.response.data.error.name[0].length > 0) {
+          this.errorMsg = e.response.data.error.name[0];
+        }
+      }
+    },
+
+    cancelForm() {
+      this.name = '';
+      this.errorMsg = '';
+      this.$emit('cancel-form');
+    }
+
+  }
 });
 
 /***/ }),
@@ -12318,10 +12376,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/projects/ProjectDetail.vue?vue&type=template&id=67526160&bindings={\"id\":\"props\",\"project\":\"data\",\"deleteProject\":\"options\"}":
-/*!************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--28-0!./resources/js/components/projects/ProjectDetail.vue?vue&type=template&id=67526160&bindings={"id":"props","project":"data","deleteProject":"options"} ***!
-  \************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/projects/ProjectDetail.vue?vue&type=template&id=67526160&bindings={\"id\":\"props\",\"project\":\"data\",\"showForm\":\"data\",\"deleteProject\":\"options\",\"fetchProject\":\"options\"}":
+/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--28-0!./resources/js/components/projects/ProjectDetail.vue?vue&type=template&id=67526160&bindings={"id":"props","project":"data","showForm":"data","deleteProject":"options","fetchProject":"options"} ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -12340,14 +12398,17 @@ const _hoisted_3 = {
   class: "text-2xl text-gray-700"
 };
 const _hoisted_4 = {
+  class: "flex justify-center"
+};
+const _hoisted_5 = {
   key: 0,
   class: "mt-6"
 };
-const _hoisted_5 = {
+const _hoisted_6 = {
   class: "flex"
 };
 
-const _hoisted_6 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", {
+const _hoisted_7 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", {
   class: "w-1/6 p-2"
 }, [/*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", {
   class: "bg-gray-400 text-gray-700 p-2 text-left"
@@ -12355,17 +12416,17 @@ const _hoisted_6 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createV
 /* HOISTED */
 );
 
-const _hoisted_7 = {
+const _hoisted_8 = {
   class: "w-1/2 p-2"
 };
-const _hoisted_8 = {
+const _hoisted_9 = {
   class: "bg-gray-400 text-gray-700 p-2 text-left"
 };
-const _hoisted_9 = {
+const _hoisted_10 = {
   class: "flex"
 };
 
-const _hoisted_10 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", {
+const _hoisted_11 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", {
   class: "w-1/6 p-2"
 }, [/*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", {
   class: "bg-gray-400 text-gray-700 p-2 text-left"
@@ -12373,17 +12434,17 @@ const _hoisted_10 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["create
 /* HOISTED */
 );
 
-const _hoisted_11 = {
+const _hoisted_12 = {
   class: "w-1/2 p-2"
 };
-const _hoisted_12 = {
+const _hoisted_13 = {
   class: "bg-gray-400 text-gray-700 p-2 text-left"
 };
-const _hoisted_13 = {
+const _hoisted_14 = {
   class: "flex"
 };
 
-const _hoisted_14 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", {
+const _hoisted_15 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", {
   class: "w-1/6 p-2"
 }, [/*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", {
   class: "bg-gray-400 text-gray-700 p-2 text-left"
@@ -12391,38 +12452,52 @@ const _hoisted_14 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["create
 /* HOISTED */
 );
 
-const _hoisted_15 = {
+const _hoisted_16 = {
   class: "w-1/2 p-2"
 };
-const _hoisted_16 = {
+const _hoisted_17 = {
   class: "bg-gray-400 text-gray-700 p-2 text-left"
 };
-const _hoisted_17 = {
+const _hoisted_18 = {
   key: 0,
   class: "my-4"
 };
 
-const _hoisted_18 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("h2", {
+const _hoisted_19 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("h2", {
   class: "text-2xl text-gray-600 mb-4"
 }, "Tasks", -1
 /* HOISTED */
 );
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
+  const _component_project_edit_form = Object(vue__WEBPACK_IMPORTED_MODULE_0__["resolveComponent"])("project-edit-form");
+
   const _component_task_item = Object(vue__WEBPACK_IMPORTED_MODULE_0__["resolveComponent"])("task-item");
 
   return Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])("div", _hoisted_1, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_2, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("h1", _hoisted_3, "Project Detail #" + Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($props.id), 1
   /* TEXT */
-  ), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("button", {
-    onClick: _cache[1] || (_cache[1] = (...args) => $options.deleteProject(...args)),
+  ), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("button", {
+    onClick: _cache[1] || (_cache[1] = $event => $data.showForm = true),
+    class: "bg-orange-500 rounded text-white px-3 py-2 mr-6 hover:bg-orange-700"
+  }, "Edit"), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("button", {
+    onClick: _cache[2] || (_cache[2] = (...args) => $options.deleteProject(...args)),
     class: "bg-red-500 rounded text-white px-3 py-2 mr-6 hover:bg-red-700"
-  }, "Delete Project")]), $data.project.id > 0 ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])("div", _hoisted_4, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_5, [_hoisted_6, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_7, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_8, Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($data.project.name), 1
+  }, "Delete Project")])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["withDirectives"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_4, [$data.project.id > 0 ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])(_component_project_edit_form, {
+    key: 0,
+    onCancelForm: _cache[3] || (_cache[3] = $event => $data.showForm = false),
+    project: $data.project,
+    onProjectEdited: $options.fetchProject
+  }, null, 8
+  /* PROPS */
+  , ["project", "onProjectEdited"])) : Object(vue__WEBPACK_IMPORTED_MODULE_0__["createCommentVNode"])("v-if", true)], 512
+  /* NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vShow"], $data.showForm]]), $data.project.id > 0 ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])("div", _hoisted_5, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_6, [_hoisted_7, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_8, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_9, Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($data.project.name), 1
   /* TEXT */
-  )])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_9, [_hoisted_10, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_11, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_12, Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($data.project.created_at), 1
+  )])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_10, [_hoisted_11, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_12, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_13, Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($data.project.created_at), 1
   /* TEXT */
-  )])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_13, [_hoisted_14, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_15, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_16, Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($data.project.updated_at), 1
+  )])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_14, [_hoisted_15, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_16, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_17, Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($data.project.updated_at), 1
   /* TEXT */
-  )])]), $data.project.tasks.length > 0 ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])("div", _hoisted_17, [_hoisted_18, (Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(true), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])(vue__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(vue__WEBPACK_IMPORTED_MODULE_0__["renderList"])($data.project.tasks, task => {
+  )])]), $data.project.tasks.length > 0 ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])("div", _hoisted_18, [_hoisted_19, (Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(true), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])(vue__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(vue__WEBPACK_IMPORTED_MODULE_0__["renderList"])($data.project.tasks, task => {
     return Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])(_component_task_item, {
       key: task.id,
       task: task
@@ -12432,6 +12507,96 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }), 128
   /* KEYED_FRAGMENT */
   ))])) : Object(vue__WEBPACK_IMPORTED_MODULE_0__["createCommentVNode"])("v-if", true)])) : Object(vue__WEBPACK_IMPORTED_MODULE_0__["createCommentVNode"])("v-if", true)]);
+}
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/projects/ProjectEditForm.vue?vue&type=template&id=a165aa86&bindings={\"project\":\"props\",\"projectName\":\"data\",\"errorMsg\":\"data\",\"handleSubmit\":\"options\",\"cancelForm\":\"options\"}":
+/*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--28-0!./resources/js/components/projects/ProjectEditForm.vue?vue&type=template&id=a165aa86&bindings={"project":"props","projectName":"data","errorMsg":"data","handleSubmit":"options","cancelForm":"options"} ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm-bundler.js");
+
+const _hoisted_1 = {
+  class: "flex items-center mb-6"
+};
+
+const _hoisted_2 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", {
+  class: "w-1/3"
+}, [/*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("label", {
+  class: "block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4",
+  for: "inline-full-name"
+}, " Name ")], -1
+/* HOISTED */
+);
+
+const _hoisted_3 = {
+  class: "w-2/3"
+};
+const _hoisted_4 = {
+  class: "flex items-center"
+};
+
+const _hoisted_5 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", {
+  class: "w-1/3"
+}, null, -1
+/* HOISTED */
+);
+
+const _hoisted_6 = {
+  class: "w-2/3"
+};
+const _hoisted_7 = {
+  key: 0,
+  class: "mb-4 text-red-500 text-xs italic"
+};
+const _hoisted_8 = {
+  class: "flex items-center"
+};
+
+const _hoisted_9 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", {
+  class: "w-1/3"
+}, null, -1
+/* HOISTED */
+);
+
+const _hoisted_10 = {
+  class: "w-2/3"
+};
+
+const _hoisted_11 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("button", {
+  class: "shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded",
+  type: "submit"
+}, " Save ", -1
+/* HOISTED */
+);
+
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  return Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])("div", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("form", {
+    class: "shadow-md rounded px-8 pt-6 pb-8 mb-4",
+    onSubmit: _cache[3] || (_cache[3] = Object(vue__WEBPACK_IMPORTED_MODULE_0__["withModifiers"])((...args) => $options.handleSubmit(...args), ["prevent"]))
+  }, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_1, [_hoisted_2, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_3, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["withDirectives"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("input", {
+    "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => $data.projectName = $event),
+    class: "bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500",
+    type: "text",
+    value: ""
+  }, null, 512
+  /* NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vModelText"], $data.projectName]])])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_4, [_hoisted_5, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_6, [$data.errorMsg.length ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])("p", _hoisted_7, Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($data.errorMsg), 1
+  /* TEXT */
+  )) : Object(vue__WEBPACK_IMPORTED_MODULE_0__["createCommentVNode"])("v-if", true)])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_8, [_hoisted_9, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_10, [_hoisted_11, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("button", {
+    onClick: _cache[2] || (_cache[2] = (...args) => $options.cancelForm(...args)),
+    class: "shadow bg-gray-500 hover:bg-gray-400 focus:shadow-outline focus:outline-none text-white font-bold ml-2 py-2 px-4 rounded",
+    type: "button"
+  }, " Cancel ")])])], 32
+  /* HYDRATE_EVENTS */
+  )]);
 }
 
 /***/ }),
@@ -34728,12 +34893,12 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _ProjectDetail_vue_vue_type_template_id_67526160_bindings_id_props_project_data_deleteProject_options___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ProjectDetail.vue?vue&type=template&id=67526160&bindings={"id":"props","project":"data","deleteProject":"options"} */ "./resources/js/components/projects/ProjectDetail.vue?vue&type=template&id=67526160&bindings={\"id\":\"props\",\"project\":\"data\",\"deleteProject\":\"options\"}");
+/* harmony import */ var _ProjectDetail_vue_vue_type_template_id_67526160_bindings_id_props_project_data_showForm_data_deleteProject_options_fetchProject_options___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ProjectDetail.vue?vue&type=template&id=67526160&bindings={"id":"props","project":"data","showForm":"data","deleteProject":"options","fetchProject":"options"} */ "./resources/js/components/projects/ProjectDetail.vue?vue&type=template&id=67526160&bindings={\"id\":\"props\",\"project\":\"data\",\"showForm\":\"data\",\"deleteProject\":\"options\",\"fetchProject\":\"options\"}");
 /* harmony import */ var _ProjectDetail_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ProjectDetail.vue?vue&type=script&lang=js */ "./resources/js/components/projects/ProjectDetail.vue?vue&type=script&lang=js");
 /* empty/unused harmony star reexport */
 
 
-_ProjectDetail_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"].render = _ProjectDetail_vue_vue_type_template_id_67526160_bindings_id_props_project_data_deleteProject_options___WEBPACK_IMPORTED_MODULE_0__["render"]
+_ProjectDetail_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"].render = _ProjectDetail_vue_vue_type_template_id_67526160_bindings_id_props_project_data_showForm_data_deleteProject_options_fetchProject_options___WEBPACK_IMPORTED_MODULE_0__["render"]
 /* hot reload */
 if (false) {}
 
@@ -34759,17 +34924,73 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/projects/ProjectDetail.vue?vue&type=template&id=67526160&bindings={\"id\":\"props\",\"project\":\"data\",\"deleteProject\":\"options\"}":
-/*!*************************************************************************************************************************************************************!*\
-  !*** ./resources/js/components/projects/ProjectDetail.vue?vue&type=template&id=67526160&bindings={"id":"props","project":"data","deleteProject":"options"} ***!
-  \*************************************************************************************************************************************************************/
+/***/ "./resources/js/components/projects/ProjectDetail.vue?vue&type=template&id=67526160&bindings={\"id\":\"props\",\"project\":\"data\",\"showForm\":\"data\",\"deleteProject\":\"options\",\"fetchProject\":\"options\"}":
+/*!********************************************************************************************************************************************************************************************************!*\
+  !*** ./resources/js/components/projects/ProjectDetail.vue?vue&type=template&id=67526160&bindings={"id":"props","project":"data","showForm":"data","deleteProject":"options","fetchProject":"options"} ***!
+  \********************************************************************************************************************************************************************************************************/
 /*! exports provided: render */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_28_0_ProjectDetail_vue_vue_type_template_id_67526160_bindings_id_props_project_data_deleteProject_options___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib!../../../../node_modules/vue-loader/dist/templateLoader.js??ref--6!../../../../node_modules/vue-loader/dist??ref--28-0!./ProjectDetail.vue?vue&type=template&id=67526160&bindings={"id":"props","project":"data","deleteProject":"options"} */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/projects/ProjectDetail.vue?vue&type=template&id=67526160&bindings={\"id\":\"props\",\"project\":\"data\",\"deleteProject\":\"options\"}");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_28_0_ProjectDetail_vue_vue_type_template_id_67526160_bindings_id_props_project_data_deleteProject_options___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_28_0_ProjectDetail_vue_vue_type_template_id_67526160_bindings_id_props_project_data_showForm_data_deleteProject_options_fetchProject_options___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib!../../../../node_modules/vue-loader/dist/templateLoader.js??ref--6!../../../../node_modules/vue-loader/dist??ref--28-0!./ProjectDetail.vue?vue&type=template&id=67526160&bindings={"id":"props","project":"data","showForm":"data","deleteProject":"options","fetchProject":"options"} */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/projects/ProjectDetail.vue?vue&type=template&id=67526160&bindings={\"id\":\"props\",\"project\":\"data\",\"showForm\":\"data\",\"deleteProject\":\"options\",\"fetchProject\":\"options\"}");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_28_0_ProjectDetail_vue_vue_type_template_id_67526160_bindings_id_props_project_data_showForm_data_deleteProject_options_fetchProject_options___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/projects/ProjectEditForm.vue":
+/*!**************************************************************!*\
+  !*** ./resources/js/components/projects/ProjectEditForm.vue ***!
+  \**************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _ProjectEditForm_vue_vue_type_template_id_a165aa86_bindings_project_props_projectName_data_errorMsg_data_handleSubmit_options_cancelForm_options___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ProjectEditForm.vue?vue&type=template&id=a165aa86&bindings={"project":"props","projectName":"data","errorMsg":"data","handleSubmit":"options","cancelForm":"options"} */ "./resources/js/components/projects/ProjectEditForm.vue?vue&type=template&id=a165aa86&bindings={\"project\":\"props\",\"projectName\":\"data\",\"errorMsg\":\"data\",\"handleSubmit\":\"options\",\"cancelForm\":\"options\"}");
+/* harmony import */ var _ProjectEditForm_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ProjectEditForm.vue?vue&type=script&lang=js */ "./resources/js/components/projects/ProjectEditForm.vue?vue&type=script&lang=js");
+/* empty/unused harmony star reexport */
+
+
+_ProjectEditForm_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"].render = _ProjectEditForm_vue_vue_type_template_id_a165aa86_bindings_project_props_projectName_data_errorMsg_data_handleSubmit_options_cancelForm_options___WEBPACK_IMPORTED_MODULE_0__["render"]
+/* hot reload */
+if (false) {}
+
+_ProjectEditForm_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"].__file = "resources/js/components/projects/ProjectEditForm.vue"
+
+/* harmony default export */ __webpack_exports__["default"] = (_ProjectEditForm_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"]);
+
+/***/ }),
+
+/***/ "./resources/js/components/projects/ProjectEditForm.vue?vue&type=script&lang=js":
+/*!**************************************************************************************!*\
+  !*** ./resources/js/components/projects/ProjectEditForm.vue?vue&type=script&lang=js ***!
+  \**************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_index_js_ref_28_0_ProjectEditForm_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib!../../../../node_modules/vue-loader/dist??ref--28-0!./ProjectEditForm.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/index.js?!./resources/js/components/projects/ProjectEditForm.vue?vue&type=script&lang=js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_index_js_ref_28_0_ProjectEditForm_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"]; });
+
+/* empty/unused harmony star reexport */ 
+
+/***/ }),
+
+/***/ "./resources/js/components/projects/ProjectEditForm.vue?vue&type=template&id=a165aa86&bindings={\"project\":\"props\",\"projectName\":\"data\",\"errorMsg\":\"data\",\"handleSubmit\":\"options\",\"cancelForm\":\"options\"}":
+/*!****************************************************************************************************************************************************************************************************************!*\
+  !*** ./resources/js/components/projects/ProjectEditForm.vue?vue&type=template&id=a165aa86&bindings={"project":"props","projectName":"data","errorMsg":"data","handleSubmit":"options","cancelForm":"options"} ***!
+  \****************************************************************************************************************************************************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_28_0_ProjectEditForm_vue_vue_type_template_id_a165aa86_bindings_project_props_projectName_data_errorMsg_data_handleSubmit_options_cancelForm_options___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib!../../../../node_modules/vue-loader/dist/templateLoader.js??ref--6!../../../../node_modules/vue-loader/dist??ref--28-0!./ProjectEditForm.vue?vue&type=template&id=a165aa86&bindings={"project":"props","projectName":"data","errorMsg":"data","handleSubmit":"options","cancelForm":"options"} */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/projects/ProjectEditForm.vue?vue&type=template&id=a165aa86&bindings={\"project\":\"props\",\"projectName\":\"data\",\"errorMsg\":\"data\",\"handleSubmit\":\"options\",\"cancelForm\":\"options\"}");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_28_0_ProjectEditForm_vue_vue_type_template_id_a165aa86_bindings_project_props_projectName_data_errorMsg_data_handleSubmit_options_cancelForm_options___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 
 

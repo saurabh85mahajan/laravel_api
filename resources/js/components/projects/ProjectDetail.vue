@@ -2,7 +2,15 @@
     <div class="p-4 m-4 bg-white rounded flex flex-col">
         <div class="flex justify-between">
             <h1 class="text-2xl text-gray-700">Project Detail #{{ id }}</h1>
-            <button @click="deleteProject" class="bg-red-500 rounded text-white px-3 py-2 mr-6 hover:bg-red-700">Delete Project</button>
+            <div>
+                <button @click="showForm=true" class="bg-orange-500 rounded text-white px-3 py-2 mr-6 hover:bg-orange-700">Edit</button>
+                <button @click="deleteProject" class="bg-red-500 rounded text-white px-3 py-2 mr-6 hover:bg-red-700">Delete Project</button>
+            </div>
+
+        </div>
+
+        <div class="flex justify-center" v-show="showForm">
+            <project-edit-form v-if="project.id > 0" @cancel-form="showForm = false" :project="project" @project-edited="fetchProject"></project-edit-form>
         </div>
 
         <div v-if="project.id > 0" class="mt-6">
@@ -48,15 +56,18 @@
 <script>
 
 import TaskItem from './TaskItem.vue';
+import ProjectEditForm from './ProjectEditForm.vue';
 
 export default {
     props: ['id'],
     components: {
-        TaskItem
+        TaskItem,
+        ProjectEditForm
     },
     data() {
         return {
             project: [],
+            showForm:false
         }
     },
     methods: {
@@ -64,12 +75,16 @@ export default {
             axios.delete('api/projects/' + this.id).then( (res) => {
                 this.$router.push({name: 'projects'});
             });
+        },
+        fetchProject() {
+            this.showForm = false;
+            axios.get('api/projects/' + this.id).then( (res) => {
+                this.project = res.data.data;
+            });
         }
     },
     mounted() {
-        axios.get('api/projects/' + this.id).then( (res) => {
-            this.project = res.data.data;
-        });
+        this.fetchProject();
     }
 }
 </script>
