@@ -101,7 +101,7 @@
                         </form>
                     </div>                    
                 </div>
-                <task-item v-for="task in project.tasks" :key="task.id" :task="task" @delete-task="deleteTask"></task-item>
+                <task-item v-for="task in project.tasks" :key="task.id" :task="task" @delete-task="deleteTask" @edit-task="editTask"></task-item>
             </div>
         </div>
     </div>
@@ -127,7 +127,8 @@ export default {
                 name: '',
                 project_id: this.id
             },
-            taskErrMsg: ''
+            taskErrMsg: '',
+            taskId:0
         }
     },
     methods: {
@@ -155,21 +156,45 @@ export default {
             this.task.name = '';
             this.taskErrMsg = '';
         },
+        editTask(id) {
+            const task = this.project.tasks.filter( i => i.id == id);
+            this.showTaskForm = true;
+            this.task.name = task[0].name;
+            this.taskErrMsg = '';
+            this.taskId = id;
+        },
         cancelForm() {
             this.showTaskForm = false;
             this.taskErrMsg = '';
         },
         async handleTaskSubmit() {
-            try {
-                const response = await axios.post('api/tasks', this.task);
-                if( response.data.status == 'OK') {
-                    this.project.tasks.push(response.data.data);
-                    this.showTaskForm = false;
-                    this.taskErrMsg = '';
+            if( this.taskId > 0 ) {
+                try {
+                    const response = await axios.put('api/tasks/' + this.taskId, this.task);
+                    if( response.data.status == 'OK') {
+                        const index = this.project.tasks.map( i => i.id).indexOf(this.taskId);
+                        this.project.tasks.splice(index, 1, response.data.data);
+                        this.showTaskForm = false;
+                        this.taskErrMsg = '';
+                    }
+                } catch (e ) {
+                    if(e.response.data.error.name[0].length > 0 ) {
+                        this.taskErrMsg = e.response.data.error.name[0];
+                    }
                 }
-            } catch (e ) {
-                if(e.response.data.error.name[0].length > 0 ) {
-                    this.taskErrMsg = e.response.data.error.name[0];
+
+            } else {
+                try {
+                    const response = await axios.post('api/tasks', this.task);
+                    if( response.data.status == 'OK') {
+                        this.project.tasks.push(response.data.data);
+                        this.showTaskForm = false;
+                        this.taskErrMsg = '';
+                    }
+                } catch (e ) {
+                    if(e.response.data.error.name[0].length > 0 ) {
+                        this.taskErrMsg = e.response.data.error.name[0];
+                    }
                 }
             }
         }

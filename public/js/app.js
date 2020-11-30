@@ -11891,7 +11891,8 @@ __webpack_require__.r(__webpack_exports__);
         name: '',
         project_id: this.id
       },
-      taskErrMsg: ''
+      taskErrMsg: '',
+      taskId: 0
     };
   },
 
@@ -11925,23 +11926,48 @@ __webpack_require__.r(__webpack_exports__);
       this.taskErrMsg = '';
     },
 
+    editTask(id) {
+      const task = this.project.tasks.filter(i => i.id == id);
+      this.showTaskForm = true;
+      this.task.name = task[0].name;
+      this.taskErrMsg = '';
+      this.taskId = id;
+    },
+
     cancelForm() {
       this.showTaskForm = false;
       this.taskErrMsg = '';
     },
 
     async handleTaskSubmit() {
-      try {
-        const response = await axios.post('api/tasks', this.task);
+      if (this.taskId > 0) {
+        try {
+          const response = await axios.put('api/tasks/' + this.taskId, this.task);
 
-        if (response.data.status == 'OK') {
-          this.project.tasks.push(response.data.data);
-          this.showTaskForm = false;
-          this.taskErrMsg = '';
+          if (response.data.status == 'OK') {
+            const index = this.project.tasks.map(i => i.id).indexOf(this.taskId);
+            this.project.tasks.splice(index, 1, response.data.data);
+            this.showTaskForm = false;
+            this.taskErrMsg = '';
+          }
+        } catch (e) {
+          if (e.response.data.error.name[0].length > 0) {
+            this.taskErrMsg = e.response.data.error.name[0];
+          }
         }
-      } catch (e) {
-        if (e.response.data.error.name[0].length > 0) {
-          this.taskErrMsg = e.response.data.error.name[0];
+      } else {
+        try {
+          const response = await axios.post('api/tasks', this.task);
+
+          if (response.data.status == 'OK') {
+            this.project.tasks.push(response.data.data);
+            this.showTaskForm = false;
+            this.taskErrMsg = '';
+          }
+        } catch (e) {
+          if (e.response.data.error.name[0].length > 0) {
+            this.taskErrMsg = e.response.data.error.name[0];
+          }
         }
       }
     }
@@ -12417,10 +12443,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/projects/ProjectDetail.vue?vue&type=template&id=67526160&bindings={\"id\":\"props\",\"project\":\"data\",\"showForm\":\"data\",\"showTaskForm\":\"data\",\"task\":\"data\",\"taskErrMsg\":\"data\",\"deleteProject\":\"options\",\"fetchProject\":\"options\",\"deleteTask\":\"options\",\"addTask\":\"options\",\"cancelForm\":\"options\",\"handleTaskSubmit\":\"options\"}":
-/*!**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--28-0!./resources/js/components/projects/ProjectDetail.vue?vue&type=template&id=67526160&bindings={"id":"props","project":"data","showForm":"data","showTaskForm":"data","task":"data","taskErrMsg":"data","deleteProject":"options","fetchProject":"options","deleteTask":"options","addTask":"options","cancelForm":"options","handleTaskSubmit":"options"} ***!
-  \**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/projects/ProjectDetail.vue?vue&type=template&id=67526160&bindings={\"id\":\"props\",\"project\":\"data\",\"showForm\":\"data\",\"showTaskForm\":\"data\",\"task\":\"data\",\"taskErrMsg\":\"data\",\"taskId\":\"data\",\"deleteProject\":\"options\",\"fetchProject\":\"options\",\"deleteTask\":\"options\",\"addTask\":\"options\",\"editTask\":\"options\",\"cancelForm\":\"options\",\"handleTaskSubmit\":\"options\"}":
+/*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--28-0!./resources/js/components/projects/ProjectDetail.vue?vue&type=template&id=67526160&bindings={"id":"props","project":"data","showForm":"data","showTaskForm":"data","task":"data","taskErrMsg":"data","taskId":"data","deleteProject":"options","fetchProject":"options","deleteTask":"options","addTask":"options","editTask":"options","cancelForm":"options","handleTaskSubmit":"options"} ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -12625,10 +12651,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     return Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])(_component_task_item, {
       key: task.id,
       task: task,
-      onDeleteTask: $options.deleteTask
+      onDeleteTask: $options.deleteTask,
+      onEditTask: $options.editTask
     }, null, 8
     /* PROPS */
-    , ["task", "onDeleteTask"]);
+    , ["task", "onDeleteTask", "onEditTask"]);
   }), 128
   /* KEYED_FRAGMENT */
   ))])) : Object(vue__WEBPACK_IMPORTED_MODULE_0__["createCommentVNode"])("v-if", true)])) : Object(vue__WEBPACK_IMPORTED_MODULE_0__["createCommentVNode"])("v-if", true)]);
@@ -12974,13 +13001,6 @@ const _hoisted_2 = {
 const _hoisted_3 = {
   class: "flex items-center justify-center"
 };
-
-const _hoisted_4 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("button", {
-  class: "bg-orange-500 rounded text-white px-3 py-2 mr-2 hover:bg-orange-700"
-}, "Edit", -1
-/* HOISTED */
-);
-
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])("div", {
     class: ["mb-2 p-2 bg-gray-300 grid grid-cols-3", {
@@ -12990,8 +13010,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* TEXT */
   ), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_2, Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($props.task.due_date), 1
   /* TEXT */
-  ), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_3, [_hoisted_4, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("button", {
-    onClick: _cache[1] || (_cache[1] = $event => this.$emit('delete-task', $props.task.id)),
+  ), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_3, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("button", {
+    onClick: _cache[1] || (_cache[1] = $event => this.$emit('edit-task', $props.task.id)),
+    class: "bg-orange-500 rounded text-white px-3 py-2 mr-2 hover:bg-orange-700"
+  }, "Edit"), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("button", {
+    onClick: _cache[2] || (_cache[2] = $event => this.$emit('delete-task', $props.task.id)),
     class: "bg-red-500 rounded text-white px-3 py-2 mr-2 hover:bg-red-700"
   }, "Delete")])], 2
   /* CLASS */
@@ -35020,12 +35043,12 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _ProjectDetail_vue_vue_type_template_id_67526160_bindings_id_props_project_data_showForm_data_showTaskForm_data_task_data_taskErrMsg_data_deleteProject_options_fetchProject_options_deleteTask_options_addTask_options_cancelForm_options_handleTaskSubmit_options___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ProjectDetail.vue?vue&type=template&id=67526160&bindings={"id":"props","project":"data","showForm":"data","showTaskForm":"data","task":"data","taskErrMsg":"data","deleteProject":"options","fetchProject":"options","deleteTask":"options","addTask":"options","cancelForm":"options","handleTaskSubmit":"options"} */ "./resources/js/components/projects/ProjectDetail.vue?vue&type=template&id=67526160&bindings={\"id\":\"props\",\"project\":\"data\",\"showForm\":\"data\",\"showTaskForm\":\"data\",\"task\":\"data\",\"taskErrMsg\":\"data\",\"deleteProject\":\"options\",\"fetchProject\":\"options\",\"deleteTask\":\"options\",\"addTask\":\"options\",\"cancelForm\":\"options\",\"handleTaskSubmit\":\"options\"}");
+/* harmony import */ var _ProjectDetail_vue_vue_type_template_id_67526160_bindings_id_props_project_data_showForm_data_showTaskForm_data_task_data_taskErrMsg_data_taskId_data_deleteProject_options_fetchProject_options_deleteTask_options_addTask_options_editTask_options_cancelForm_options_handleTaskSubmit_options___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ProjectDetail.vue?vue&type=template&id=67526160&bindings={"id":"props","project":"data","showForm":"data","showTaskForm":"data","task":"data","taskErrMsg":"data","taskId":"data","deleteProject":"options","fetchProject":"options","deleteTask":"options","addTask":"options","editTask":"options","cancelForm":"options","handleTaskSubmit":"options"} */ "./resources/js/components/projects/ProjectDetail.vue?vue&type=template&id=67526160&bindings={\"id\":\"props\",\"project\":\"data\",\"showForm\":\"data\",\"showTaskForm\":\"data\",\"task\":\"data\",\"taskErrMsg\":\"data\",\"taskId\":\"data\",\"deleteProject\":\"options\",\"fetchProject\":\"options\",\"deleteTask\":\"options\",\"addTask\":\"options\",\"editTask\":\"options\",\"cancelForm\":\"options\",\"handleTaskSubmit\":\"options\"}");
 /* harmony import */ var _ProjectDetail_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ProjectDetail.vue?vue&type=script&lang=js */ "./resources/js/components/projects/ProjectDetail.vue?vue&type=script&lang=js");
 /* empty/unused harmony star reexport */
 
 
-_ProjectDetail_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"].render = _ProjectDetail_vue_vue_type_template_id_67526160_bindings_id_props_project_data_showForm_data_showTaskForm_data_task_data_taskErrMsg_data_deleteProject_options_fetchProject_options_deleteTask_options_addTask_options_cancelForm_options_handleTaskSubmit_options___WEBPACK_IMPORTED_MODULE_0__["render"]
+_ProjectDetail_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"].render = _ProjectDetail_vue_vue_type_template_id_67526160_bindings_id_props_project_data_showForm_data_showTaskForm_data_task_data_taskErrMsg_data_taskId_data_deleteProject_options_fetchProject_options_deleteTask_options_addTask_options_editTask_options_cancelForm_options_handleTaskSubmit_options___WEBPACK_IMPORTED_MODULE_0__["render"]
 /* hot reload */
 if (false) {}
 
@@ -35051,17 +35074,17 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/projects/ProjectDetail.vue?vue&type=template&id=67526160&bindings={\"id\":\"props\",\"project\":\"data\",\"showForm\":\"data\",\"showTaskForm\":\"data\",\"task\":\"data\",\"taskErrMsg\":\"data\",\"deleteProject\":\"options\",\"fetchProject\":\"options\",\"deleteTask\":\"options\",\"addTask\":\"options\",\"cancelForm\":\"options\",\"handleTaskSubmit\":\"options\"}":
-/*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./resources/js/components/projects/ProjectDetail.vue?vue&type=template&id=67526160&bindings={"id":"props","project":"data","showForm":"data","showTaskForm":"data","task":"data","taskErrMsg":"data","deleteProject":"options","fetchProject":"options","deleteTask":"options","addTask":"options","cancelForm":"options","handleTaskSubmit":"options"} ***!
-  \***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./resources/js/components/projects/ProjectDetail.vue?vue&type=template&id=67526160&bindings={\"id\":\"props\",\"project\":\"data\",\"showForm\":\"data\",\"showTaskForm\":\"data\",\"task\":\"data\",\"taskErrMsg\":\"data\",\"taskId\":\"data\",\"deleteProject\":\"options\",\"fetchProject\":\"options\",\"deleteTask\":\"options\",\"addTask\":\"options\",\"editTask\":\"options\",\"cancelForm\":\"options\",\"handleTaskSubmit\":\"options\"}":
+/*!****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./resources/js/components/projects/ProjectDetail.vue?vue&type=template&id=67526160&bindings={"id":"props","project":"data","showForm":"data","showTaskForm":"data","task":"data","taskErrMsg":"data","taskId":"data","deleteProject":"options","fetchProject":"options","deleteTask":"options","addTask":"options","editTask":"options","cancelForm":"options","handleTaskSubmit":"options"} ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_28_0_ProjectDetail_vue_vue_type_template_id_67526160_bindings_id_props_project_data_showForm_data_showTaskForm_data_task_data_taskErrMsg_data_deleteProject_options_fetchProject_options_deleteTask_options_addTask_options_cancelForm_options_handleTaskSubmit_options___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib!../../../../node_modules/vue-loader/dist/templateLoader.js??ref--6!../../../../node_modules/vue-loader/dist??ref--28-0!./ProjectDetail.vue?vue&type=template&id=67526160&bindings={"id":"props","project":"data","showForm":"data","showTaskForm":"data","task":"data","taskErrMsg":"data","deleteProject":"options","fetchProject":"options","deleteTask":"options","addTask":"options","cancelForm":"options","handleTaskSubmit":"options"} */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/projects/ProjectDetail.vue?vue&type=template&id=67526160&bindings={\"id\":\"props\",\"project\":\"data\",\"showForm\":\"data\",\"showTaskForm\":\"data\",\"task\":\"data\",\"taskErrMsg\":\"data\",\"deleteProject\":\"options\",\"fetchProject\":\"options\",\"deleteTask\":\"options\",\"addTask\":\"options\",\"cancelForm\":\"options\",\"handleTaskSubmit\":\"options\"}");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_28_0_ProjectDetail_vue_vue_type_template_id_67526160_bindings_id_props_project_data_showForm_data_showTaskForm_data_task_data_taskErrMsg_data_deleteProject_options_fetchProject_options_deleteTask_options_addTask_options_cancelForm_options_handleTaskSubmit_options___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_28_0_ProjectDetail_vue_vue_type_template_id_67526160_bindings_id_props_project_data_showForm_data_showTaskForm_data_task_data_taskErrMsg_data_taskId_data_deleteProject_options_fetchProject_options_deleteTask_options_addTask_options_editTask_options_cancelForm_options_handleTaskSubmit_options___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib!../../../../node_modules/vue-loader/dist/templateLoader.js??ref--6!../../../../node_modules/vue-loader/dist??ref--28-0!./ProjectDetail.vue?vue&type=template&id=67526160&bindings={"id":"props","project":"data","showForm":"data","showTaskForm":"data","task":"data","taskErrMsg":"data","taskId":"data","deleteProject":"options","fetchProject":"options","deleteTask":"options","addTask":"options","editTask":"options","cancelForm":"options","handleTaskSubmit":"options"} */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/projects/ProjectDetail.vue?vue&type=template&id=67526160&bindings={\"id\":\"props\",\"project\":\"data\",\"showForm\":\"data\",\"showTaskForm\":\"data\",\"task\":\"data\",\"taskErrMsg\":\"data\",\"taskId\":\"data\",\"deleteProject\":\"options\",\"fetchProject\":\"options\",\"deleteTask\":\"options\",\"addTask\":\"options\",\"editTask\":\"options\",\"cancelForm\":\"options\",\"handleTaskSubmit\":\"options\"}");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_28_0_ProjectDetail_vue_vue_type_template_id_67526160_bindings_id_props_project_data_showForm_data_showTaskForm_data_task_data_taskErrMsg_data_taskId_data_deleteProject_options_fetchProject_options_deleteTask_options_addTask_options_editTask_options_cancelForm_options_handleTaskSubmit_options___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 
 
